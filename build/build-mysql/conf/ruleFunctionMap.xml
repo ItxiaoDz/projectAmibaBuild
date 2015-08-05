@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="gbk"?>
+<!DOCTYPE amoeba:function SYSTEM "function.dtd">
+
+<!-- using parse rule expression -->
+<amoeba:function xmlns:amoeba="http://amoeba.meidusa.com/">
+	
+	<!--
+		规则函数列表
+		系统默认保持一份，这儿如果function name 名字跟系统内部一样，将覆盖系统内部的规则函数
+		规则函数的编写：必须继承com.meidusa.amoeba.sqljep.function.PostfixCommand 类
+	-->
+	<function name="hash" class="com.meidusa.amoeba.sqljep.function.Hash"/>
+	<function name="getDbServerById" class="com.meidusa.amoeba.sqljep.function.GetDbServerById">
+		<property name="sql">select * from user_dbserver ud,dbserver_info db where db.dbserver = ud.dbserver and userId=?</property>
+		<property name="insertUserDb">insert into user_dbserver(userId,dbserver) values(?,?)</property>
+		<property name="dbInfoTab">dbserver_info</property>
+		<property name="poolName">jdbcserver</property>
+	</function>
+	<function name="getDbServerByIdUseMap" class="com.meidusa.amoeba.sqljep.function.GetDbServerByIdUseMap">
+		<property name="sql">select * from user_dbserver ud,dbserver_info db where db.dbserver = ud.dbserver and userId=?</property>
+		<property name="insertUserDb">insert into user_dbserver(userId,dbserver) values(?,?)</property>
+		<property name="dbInfoTab">dbserver_info</property>
+		<property name="poolName">jdbcserver</property>
+	</function>
+	
+	
+	<!-- jdbcserver's factoryConfig class must be com.meidusa.amoeba.jdbc.JdbcConnectionFactory -->
+	<!-- <function name="getDbByUserId" class="com.meidusa.amoeba.sqljep.function.SqlQueryCommand">
+		<property name="sql">select dbserver from user_dbserver where userId = ?</property>
+		<property name="poolName">jdbcserver</property>
+		<property name="threadLocalCache">true</property>
+	</function> -->
+ 	
+
+</amoeba:function>
